@@ -1,5 +1,6 @@
 package mx.hoola.hoola.Views.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -24,12 +25,14 @@ import mx.hoola.hoola.R;
 import mx.hoola.hoola.Tools.RecyclerItemClickListener;
 import mx.hoola.hoola.Views.Adapters.ConfiguracionAdapter;
 import mx.hoola.hoola.Views.Adapters.ContactoAdapter;
+import mx.hoola.hoola.Views.ImagenPopUpActivity;
+import mx.hoola.hoola.Views.PublicacionActivity;
 
 /**
  * Created by Isaac on 03/03/2017.
  */
 
-public class ConfiguracionFragment extends Fragment {
+public class ConfiguracionFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView recycler;
     private ConfiguracionAdapter adapter;
@@ -54,6 +57,7 @@ public class ConfiguracionFragment extends Fragment {
         View v =inflater.inflate(R.layout.configuracion_fragment,container,false);
 
         conectar = (Button)v.findViewById(R.id.conectar);
+        conectar.setOnClickListener(this);
 
         recycler = (RecyclerView) v.findViewById(R.id.configRecycler);
         recycler.setHasFixedSize(true);
@@ -92,5 +96,14 @@ public class ConfiguracionFragment extends Fragment {
             items.add(i,array[i]);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.conectar){
+            Intent intent = new Intent(getActivity(), PublicacionActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 }
