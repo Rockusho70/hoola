@@ -11,13 +11,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;
 import mx.hoola.hoola.R;
 import mx.hoola.hoola.Views.Adapters.ViewPagerAdapter;
 import mx.hoola.hoola.Views.Fragments.ConfiguracionFragment;
-import mx.hoola.hoola.Views.Fragments.FiltrosFragment;
 import mx.hoola.hoola.Views.Fragments.InicioFragment;
 
 public class PublicacionActivity extends AppCompatActivity implements MaterialTabListener {
@@ -27,6 +27,9 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
     private ViewPager viewPager;
     private ViewPagerAdapter androidAdapter;
     private MaterialSearchView searchView;
+
+    private NotificationBadge mBadge;
+    private int mCount = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
             }
         });
 
+        mBadge = (NotificationBadge) findViewById(R.id.badge);
+        mBadge.setNumber(mCount);
+
     }
 
     @Override
@@ -90,9 +96,15 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
      * Adding custom view to tab
      */
     private void setupTabIcons() {
-        tabHost.getTabAt(0).setIcon(R.drawable.home_publish);
+        TextView home = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab_publish, null);
+        home.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.home_publish, 0, 0);
+        home.setText("Inicio");
+        tabHost.getTabAt(0).setCustomView(home);
         tabHost.getTabAt(1).setIcon(R.drawable.camera);
-        tabHost.getTabAt(2).setIcon(R.drawable.settings_publish);
+        TextView conf = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab_publish, null);
+        conf.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.settings_publish, 0, 0);
+        conf.setText("Configuración");
+        tabHost.getTabAt(2).setCustomView(conf);
     }
 
     /**
@@ -102,7 +114,7 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new InicioFragment(), "");
-        adapter.addFrag(new FiltrosFragment(), "");
+        adapter.addFrag(new InicioFragment(), "");
         adapter.addFrag(new ConfiguracionFragment(), "");
         viewPager.setAdapter(adapter);
     }
@@ -119,7 +131,13 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
 
     @Override
     public void onTabSelected(MaterialTab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
+
+        if(tab.getPosition() == 1){
+            viewPager.setCurrentItem(0);
+        }
+        else{
+            viewPager.setCurrentItem(tab.getPosition());
+        }
     }
 
     @Override

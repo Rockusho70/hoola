@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <permission
         android:name="com.example.permission.MAPS_RECEIVE"
@@ -72,7 +75,8 @@
             android:label="@string/title_activity_imagen_pop_up"
             android:taskAffinity=""
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Views.PublicacionActivity"></activity>
+        <activity android:name=".Views.PublicacionActivity" />
+        <activity android:name=".Views.CamaraActivity"></activity>
     </application>
 
 </manifest>
