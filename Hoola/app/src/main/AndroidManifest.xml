@@ -75,7 +75,9 @@
             android:label="@string/title_activity_imagen_pop_up"
             android:taskAffinity=""
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Views.PublicacionActivity" />
+        <activity android:name=".Views.PublicacionActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".Views.CamaraActivity"></activity>
     </application>
 

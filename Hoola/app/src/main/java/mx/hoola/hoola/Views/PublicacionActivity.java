@@ -1,5 +1,6 @@
 package mx.hoola.hoola.Views;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.nex3z.notificationbadge.NotificationBadge;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;
 import mx.hoola.hoola.R;
+import mx.hoola.hoola.Views.Adapters.NonSwipeableViewPager;
 import mx.hoola.hoola.Views.Adapters.ViewPagerAdapter;
 import mx.hoola.hoola.Views.Fragments.ConfiguracionFragment;
 import mx.hoola.hoola.Views.Fragments.InicioFragment;
@@ -24,8 +26,7 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
 
     private Toolbar toolbar;
     private TabLayout tabHost;
-    private ViewPager viewPager;
-    private ViewPagerAdapter androidAdapter;
+    private NonSwipeableViewPager viewPager;
     private MaterialSearchView searchView;
 
     private NotificationBadge mBadge;
@@ -43,8 +44,32 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
 
         //tab host
         tabHost =  (TabLayout) findViewById(R.id.tabHost);
-        viewPager = (ViewPager) this.findViewById(R.id.viewPager);
+
+        viewPager = (NonSwipeableViewPager) this.findViewById(R.id.viewPager);
         setupViewPager(viewPager);
+
+        tabHost.setOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        if(tab.getPosition() == 1){
+                            Intent intent = new Intent(PublicacionActivity.this, CamaraActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        }
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        if(tab.getPosition() == 1){
+                            Intent intent = new Intent(PublicacionActivity.this, CamaraActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        }
+                    }
+                });
 
         tabHost.setupWithViewPager(viewPager);
         setupTabIcons();
@@ -131,18 +156,11 @@ public class PublicacionActivity extends AppCompatActivity implements MaterialTa
 
     @Override
     public void onTabSelected(MaterialTab tab) {
-
-        if(tab.getPosition() == 1){
-            viewPager.setCurrentItem(0);
-        }
-        else{
-            viewPager.setCurrentItem(tab.getPosition());
-        }
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
     public void onTabReselected(MaterialTab tab) {
-
     }
 
     @Override
